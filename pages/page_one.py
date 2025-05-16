@@ -6,14 +6,12 @@ import altair as alt
 
 
 
-# st.title("Streamlit Dashboard (EDA) Project")
 st.markdown("""
     <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold;'>
         Palmer Penguins Dataset (EDA) 
     </h1>
 """, unsafe_allow_html=True)
 
-# st.image("https://i.imgur.com/5rtbtpN.png")
 
 # Custom image with height
 st.markdown(
@@ -25,31 +23,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.write("")
+st.write("") # spacing 
 # read csv
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
-
-
 st.write(df.head())
 
 
 
 
-# Add a slider to the sidebar:
-add_slider = st.sidebar.slider(
-    'Select a range of values',
-    0, 100
-) | 5
 
+st.write("")
 
-
-
-    # st.header("A cat")
-
-
-
-
+# Add two colummns 
 col1, col2, = st.columns(2)
 
 with col1:
@@ -62,7 +48,7 @@ with col1:
         y=alt.Y('count:Q', title=None),
         color='sex:N'
     ).properties(
-        height=500,
+        height=600,
         title=alt.TitleParams(
             text='Number Of Male & Female Penguins',
             align='center',
@@ -76,13 +62,28 @@ with col1:
         titleFontSize=16
     )
 
-
-
-    with st.sidebar:
-        add_radio = st.radio(
-            "Choose a shipping method",
-            ("Standard (5-15 days)", "Express (2-5 days)")
-        )
-
     # Display in Streamlit
     st.altair_chart(chart, use_container_width=True,)
+    
+    
+    
+    
+with col2:
+    st.write('')
+    explode = (0, 0.1, 0)
+
+    fig, ax = plt.subplots( figsize=(5, 5),facecolor='none')
+    a = df['health_metrics'].value_counts().reset_index()
+    a.columns = ['health_metrics', 'count']
+    print(a)
+    wedges, texts, autotexts=ax.pie(a["count"], explode=explode, labels=a["health_metrics"], autopct='%1.1f%%',
+        shadow=True, startangle=90,radius=0.5, textprops={'color': 'white'} )
+    # Add legend
+    # ax.legend(wedges, a["health_metrics"], title="Health Metrics", loc="center left", bbox_to_anchor=(1, 0.5),)
+    st.pyplot(fig)
+   
+ 
+        
+    
+    
+    

@@ -1,3 +1,7 @@
-import streamlit as st
 
-st.title("Page 3")
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample data
+
