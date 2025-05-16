@@ -7,8 +7,8 @@ import altair as alt
 
 
 st.markdown("""
-    <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold;'>
-        Palmer Penguins Dataset (EDA) 
+    <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold; font-weight: bold;'>
+        Palmer Penguins Dataset
     </h1>
 """, unsafe_allow_html=True)
 
@@ -24,14 +24,19 @@ st.markdown(
 )
 
 st.write("") # spacing 
+
 # read csv
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
-# st.write(df.head())
 
 
 
 
+
+with st.expander("📊 Statistical Summary of Numerical Columns"):
+    st.dataframe(df.describe().style.format(precision=2))
+ 
+        
 
 st.write("")
 
@@ -81,9 +86,7 @@ with col2:
     # Add legend
     # ax.legend(wedges, a["health_metrics"], title="Health Metrics", loc="center left", bbox_to_anchor=(1, 0.5),)
     st.pyplot(fig)
-   
- 
-        
+
     
     
     

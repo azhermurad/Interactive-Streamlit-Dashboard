@@ -39,15 +39,7 @@ with col1:
    .encode(
        x=bil_value, y="body_mass_g", color="species", tooltip=[bil_value, "body_mass_g"])
 ).properties(
-        height=600,
-        title=alt.TitleParams(
-            text=f'Relationship between {bil_value} vs body_mass_g',
-            align='center',
-            fontSize=20,
-            font='Arial',
-            anchor='middle',
-            # color="orange"
-        )
+        height=500,
     ).configure_axis(
         labelFontSize=14,
         titleFontSize=16
