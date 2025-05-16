@@ -3,10 +3,26 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import altair as alt
+import plotly.express as px
+
+
+st.markdown("""
+    <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold;'>
+        Palmer Penguins Dataset
+    </h1>
+""", unsafe_allow_html=True)
 
 
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
+st.write(df.head())
+print(df.corr(numeric_only=True))
+
+
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
+
 
 
 # Add Column 
@@ -46,7 +62,32 @@ with col1:
     
 with col2:
 #    we have to add seaborn histogram for bodymass or bill length to check the distribution of it
-    pass
+    corr_matrix = df.corr(numeric_only=True)
+# Plotly heatmap
+    fig = px.imshow(
+        corr_matrix,
+        text_auto=True,  # shows values inside cells
+        color_continuous_scale='RdBu_r',
+)
+
+    # Center the title
+    fig.update_layout(
+        title={
+        'text': "Correlation Between Features",
+        'x': 0.5,
+        'xanchor': 'center',
+        'font': {
+            'size': 24,  # Increase this value for bigger title
+            'family': 'Arial',
+            'color': 'white'
+        }
+    },
+        width=600,
+        height=600
+    )
+
+    # Show in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
 
 
  

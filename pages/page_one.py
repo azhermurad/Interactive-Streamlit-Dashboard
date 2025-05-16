@@ -27,7 +27,7 @@ st.write("") # spacing
 # read csv
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
-st.write(df.head())
+# st.write(df.head())
 
 
 
@@ -48,7 +48,7 @@ with col1:
         y=alt.Y('count:Q', title=None),
         color='sex:N'
     ).properties(
-        height=600,
+        height=500,
         title=alt.TitleParams(
             text='Number Of Male & Female Penguins',
             align='center',
