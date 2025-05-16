@@ -8,7 +8,7 @@ import plotly.express as px
 
 st.markdown("""
     <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold;'>
-        Palmer Penguins Dataset
+        Palmer Penguins 
     </h1>
 """, unsafe_allow_html=True)
 
@@ -27,7 +27,9 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 # Add Column 
 col1, col2, = st.columns(2)
+
 with col1:
+    st.subheader("Relationship With Body Mass")
     bil_value = st.selectbox(
     "Check relationship between Bill Length/ Bill Depth/flipper_lenght_mm   vs  Body Mass",
     ("bill_length_mm", "bill_depth_mm","flipper_length_mm"),
