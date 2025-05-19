@@ -18,9 +18,9 @@ species_colors = {"Adelie": "#e41a1c", "Chinstrap": "#377eb8", "Gentoo": "#4daf4
 island_coords = {
     "Biscoe": {"lat": -65.5, "lon": -65.5},
     "Dream": {"lat": -64.7, "lon": -64.1},
-    "Torgersen": {"lat": -64.8, "lon": -64.2}
+    "Torgensen": {"lat": -64.8, "lon": -64.2}
 }
-island_colors = {"Biscoe": [255, 99, 71], "Dream": [30, 144, 255], "Torgersen": [34, 139, 34]}
+island_colors = {"Biscoe": [255, 99, 71], "Dream": [30, 144, 255], "Torgensen": [34, 139, 34]}
 
 # simulating coordinates for penguins
 def jitter(lat, lon, scale=0.03):
