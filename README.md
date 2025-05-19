@@ -20,6 +20,7 @@ Palmer's Penguins dataset, providing a more comprehensive view of penguin charac
 | **Flipper Length (mm)** | Flipper length in millimeters |
 | **Health Metrics** | Health status (*Healthy, Overweight, Underweight*) |
 
+---
 
 # Streamlit Setup Guide
 
