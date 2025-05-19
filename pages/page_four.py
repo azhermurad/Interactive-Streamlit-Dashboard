@@ -6,7 +6,7 @@ import altair as alt
 
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null values
-
+st.set_page_config(layout="wide")
 st.title("Map-Based Visualization")
 
 # filters
