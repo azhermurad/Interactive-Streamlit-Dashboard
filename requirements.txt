@@ -3,3 +3,4 @@ altair
 pandas
 matplotlib
 plotly
+pydeck
