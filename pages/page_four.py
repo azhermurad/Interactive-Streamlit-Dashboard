@@ -13,7 +13,7 @@ selected_species = st.multiselect("Select Species", df['species'].unique(), defa
 selected_sex = st.multiselect("Select Sex", df['sex'].unique(), default=df['sex'].unique())
 filtered_df = df[(df['species'].isin(selected_species)) & (df['sex'].isin(selected_sex))]
 
-# assigning coordinates
+# assign coordinates
 species_colors = {"Adelie": "#e41a1c", "Chinstrap": "#377eb8", "Gentoo": "#4daf4a"}
 island_coords = {
     "Biscoe": {"lat": -65.5, "lon": -65.5},
@@ -22,7 +22,7 @@ island_coords = {
 }
 island_colors = {"Biscoe": [255, 99, 71], "Dream": [30, 144, 255], "Torgensen": [34, 139, 34]}
 
-# simulating coordinates for penguins
+# simulate coordinates for penguins
 def jitter(lat, lon, scale=0.03):
     return lat + np.random.uniform(-scale, scale), lon + np.random.uniform(-scale, scale)
 
