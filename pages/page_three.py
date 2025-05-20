@@ -37,7 +37,15 @@ else:
 # Add Column 
 col1, col2, = st.columns(2)
 with col1:
-   
+    st.subheader("Penguins Body Mass by Species")
+    fig_box = px.box(
+        df,
+        x='species',
+        y='body_mass_g',
+        color='species',
+        template="plotly_white"
+    )
+    st.plotly_chart(fig_box, use_container_width=True)
 
 
 
