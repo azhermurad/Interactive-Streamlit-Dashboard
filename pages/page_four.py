@@ -78,7 +78,7 @@ tooltip = {
     "style": {"backgroundColor": "black", "color": "white", "fontSize": "13px"}
 }
 
-view_state = pdk.ViewState(latitude=-65.0, longitude=-64.8, zoom=5)
+view_state = pdk.ViewState(latitude=-65.0, longitude=-64.8, zoom=4)
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
