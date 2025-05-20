@@ -13,7 +13,7 @@ df.dropna(inplace=True) # drop null value
 
 
 
-st.subheader("Line Chart of Bill Length & Bill Depth")
+st.subheader("Line Chart for Bill Length & Bill Depth")
 
   # Step 3: Optional year filter using slider
 selected_year = st.slider("Select a year to filter (or view all years)", min_value=2021, max_value=2025, step=1)
@@ -52,10 +52,10 @@ with col1:
 
     
 with col2:
-    life_stage_avg = df.groupby('life_stage')[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm']].mean()
-
-    st.subheader("Avg Measurements by Life Stage")
-    st.area_chart(life_stage_avg)
+    pass
+    # life_stage_avg = df.groupby('life_stage')[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm']].mean()
+    # st.subheader("Avg Measurements by Life Stage")
+    # st.area_chart(life_stage_avg)
 
 
  
