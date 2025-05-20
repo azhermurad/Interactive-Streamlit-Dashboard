@@ -95,6 +95,7 @@ st.write("")
 col1, col2, = st.columns(2)
 
 with col1:
+    st.markdown("###  Gender Distribution")
     st.write('')
     sex_counts = df['sex'].value_counts().reset_index()
     sex_counts.columns = ['sex', 'count']
@@ -126,6 +127,7 @@ with col1:
     
 with col2:
     st.write('')
+    st.markdown("### Health Metrics Overview", unsafe_allow_html=True)
     explode = (0, 0.1, 0)
 
     fig, ax = plt.subplots( figsize=(5, 5),facecolor='none')
