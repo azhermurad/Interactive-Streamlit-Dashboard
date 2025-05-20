@@ -1,18 +1,15 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 import altair as alt
 import plotly.express as px
 
-
 st.markdown("""
     <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold;'>
-        Palmer Penguins 
+        Palmer Penguins - Detailed Analysis
     </h1>
 """, unsafe_allow_html=True)
 
-
+# Load dataset
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
 
@@ -31,13 +28,6 @@ with f3:
 with f4:
     sex_filter = st.selectbox("🚻 Gender", options=["All"] + sorted(df["sex"].dropna().unique()))
 
-# Summary statistics
-with st.expander("📊 Summary Statistics of Numerical Columns"):
-    st.dataframe(filtered_df.describe().style.set_properties(
-        **{'background-color': '#f0f4fb', 'color': '#333', 'border-color': '#ddd'}
-    ), use_container_width=True)
-if filtered_df.empty:
-    st.warning("⚠️ No data available for the selected filters. Please adjust your selections.")    
 # Apply filters
 filtered_df = df.copy()
 if species_filter != "All":
@@ -49,78 +39,65 @@ if year_filter != "All":
 if sex_filter != "All":
     filtered_df = filtered_df[filtered_df["sex"] == sex_filter]
 
+# Summary statistics
+with st.expander("📊 Summary Statistics of Numerical Columns"):
+    st.dataframe(filtered_df.describe().style.set_properties(
+        **{'background-color': '#f0f4fb', 'color': '#333', 'border-color': '#ddd'}
+    ), use_container_width=True)
 
-st.write(df.head())
-print(df.corr(numeric_only=True))
+if filtered_df.empty:
+    st.warning("⚠️ No data available for the selected filters. Please adjust your selections.")
+else:
+    col1, col2 = st.columns(2)
 
+    with col1:
+        st.subheader("Relationship With Body Mass")
+        bil_value = st.selectbox(
+            "Select feature to compare vs Body Mass",
+            ("bill_length_mm", "bill_depth_mm", "flipper_length_mm"),
+        )
+        c = (
+            alt.Chart(filtered_df)
+            .mark_circle()
+            .encode(
+                x=bil_value,
+                y="body_mass_g",
+                color="species",
+                tooltip=[bil_value, "body_mass_g"]
+            )
+            .properties(height=500)
+            .configure_axis(labelFontSize=14, titleFontSize=16)
+        )
+        st.altair_chart(c)
+        st.markdown(
+            "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+            "This scatter plot explores how selected penguin features relate to their body mass across species."
+            "</p>",
+            unsafe_allow_html=True
+        )
 
-st.markdown("<br>", unsafe_allow_html=True)
-st.markdown("<br>", unsafe_allow_html=True)
-st.markdown("<br>", unsafe_allow_html=True)
-
-
-
-# Add Column 
-col1, col2, = st.columns(2)
-
-with col1:
-    st.subheader("Relationship With Body Mass")
-    bil_value = st.selectbox(
-    "Check relationship between Bill Length/ Bill Depth/flipper_lenght_mm   vs  Body Mass",
-    ("bill_length_mm", "bill_depth_mm","flipper_length_mm"),
-)
-    st.write('')
-    c = (
-   alt.Chart(df)
-   .mark_circle()
-   .encode(
-       x=bil_value, y="body_mass_g", color="species", tooltip=[bil_value, "body_mass_g"])
-).properties(
-        height=500,
-    ).configure_axis(
-        labelFontSize=14,
-        titleFontSize=16
-    )
-
-    st.altair_chart(c)
-   
-
-
-
-
-    
-with col2:
-#    we have to add seaborn histogram for bodymass or bill length to check the distribution of it
-    corr_matrix = df.corr(numeric_only=True)
-# Plotly heatmap
-    fig = px.imshow(
-        corr_matrix,
-        text_auto=True,  # shows values inside cells
-        color_continuous_scale='RdBu_r',
-)
-
-    # Center the title
-    fig.update_layout(
-        title={
-        'text': "Correlation Between Features",
-        'x': 0.5,
-        'xanchor': 'center',
-        'font': {
-            'size': 24,  # Increase this value for bigger title
-            'family': 'Arial',
-            'color': 'white'
-        }
-    },
-        width=600,
-        height=600
-    )
-
-    # Show in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
-
-
- 
-        
-    
-
-
+    with col2:
+        st.subheader("Correlation Between Features")
+        corr_matrix = filtered_df.corr(numeric_only=True)
+        fig = px.imshow(
+            corr_matrix,
+            text_auto=True,
+            color_continuous_scale='RdBu_r',
+        )
+        fig.update_layout(
+            title={
+                'text': "Correlation Between Features",
+                'x': 0.5,
+                'xanchor': 'center',
+                'font': {'size': 24, 'family': 'Arial', 'color': 'white'}
+            },
+            width=600,
+            height=600
+        )
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown(
+            "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+            "This heatmap visualizes the correlation strength between various numerical features in the dataset."
+            "</p>",
+            unsafe_allow_html=True
+        )
