@@ -87,69 +87,70 @@ if sex_filter != "All":
 st.subheader("🐧 Dataset Preview (Filtered)")
 st.dataframe(filtered_df.head())
 
+if filtered_df.empty:
+    st.warning("⚠️ No data available for the selected filters. Please adjust your selections.")
+else:
+    st.divider()
+    col1, col2 = st.columns(2)
 
-st.write("")
-
-# Add two colummns 
-col1, col2, = st.columns(2)
-
-with col1:
-    st.markdown("###  Gender Distribution")
-    #st.write('')
-    sex_counts = df['sex'].value_counts().reset_index()
-    sex_counts.columns = ['sex', 'count']
-    # Create Altair bar chart
-    chart = alt.Chart(sex_counts).mark_bar().encode(
-        x=alt.X('sex:N', title=None),
-        y=alt.Y('count:Q', title=None),
-        color='sex:N'
-    ).properties(
-        height=500,
-        title=alt.TitleParams(
-            text='Number Of Male & Female Penguins',
-            align='center',
-            fontSize=20,
-            font='Arial',
-            anchor='middle',
-            # color="orange"
+    with col1:
+        st.markdown("### 📊 Gender Distribution")
+        sex_counts = filtered_df['sex'].value_counts().reset_index()
+        sex_counts.columns = ['sex', 'count']
+        # Create Altair bar chart
+        chart = alt.Chart(sex_counts).mark_bar(size=80).encode(
+            x=alt.X('sex:N', title=None),
+            y=alt.Y('count:Q', title=None),
+            color=alt.Color('sex:N', legend=None)
+        ).properties(height=400, width=400,
+                     title='Number Of Male & Female Penguins').configure_axis(
+            labelFontSize=14,
+            titleFontSize=16
         )
-    ).configure_axis(
-        labelFontSize=14,
-        titleFontSize=16
-    )
+        # Display in Streamlit
+        st.altair_chart(chart, use_container_width=True)
+        st.markdown("<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+                    "This bar chart shows the count of male and female penguins in the filtered dataset.</p>", unsafe_allow_html=True)
 
-    # Display in Streamlit
-    st.altair_chart(chart, use_container_width=True,)
-    st.markdown("<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
-                "This bar chart shows the count of male and female penguins in the filtered dataset.</p>", unsafe_allow_html=True)
-   
+    with col2:
+        # Use tighter HTML heading to reduce space above
+        st.markdown("### 🧬 Health Metrics Overview", unsafe_allow_html=True)
     
+        # Directly add the pie chart (don't add blank space above)
+        fig, ax = plt.subplots(figsize=(5, 5), facecolor='none')
+        a = df['health_metrics'].value_counts().reset_index()
+        a.columns = ['health_metrics', 'count']
+        explode = (0, 0.1, 0)
     
-with col2:
-    st.write('')
-    st.markdown("### Health Metrics Overview", unsafe_allow_html=True)
-    explode = (0, 0.1, 0)
-
-    fig, ax = plt.subplots( figsize=(5, 5),facecolor='none')
-    a = df['health_metrics'].value_counts().reset_index()
-    a.columns = ['health_metrics', 'count']
-    print(a)
-    wedges, texts, autotexts=ax.pie(a["count"], explode=explode, labels=a["health_metrics"], autopct='%1.1f%%',
-        shadow=True, startangle=90,radius=0.5, textprops={'color': 'white'} )
-    # Add legend
-    ax.legend(
-        wedges,
-        a["health_metrics"],
-        title="Health Metrics",
-        loc="center left",
-        bbox_to_anchor=(1, 0.5),
-        labelcolor='black',
-        prop={'size': 10}
-    )
+        wedges, texts, autotexts = ax.pie(
+            a["count"],
+            explode=explode,
+            labels=a["health_metrics"],
+            autopct='%1.1f%%',
+            shadow=True,
+            startangle=90,
+            radius=0.5,
+            textprops={'color': 'white'}
+        )
     
-    st.pyplot(fig)
-   #description
-    st.markdown(
+        ax.legend(
+            wedges,
+            a["health_metrics"],
+            title="Health Metrics",
+            loc="center left",
+            bbox_to_anchor=(1, 0.5),
+            labelcolor='black',
+            prop={'size': 10}
+        )
+    
+        # Use tighter layout for pie chart
+        st.pyplot(fig, clear_figure=True)
+    
+        # Small spacer between chart and description
+        st.markdown("<div style='height: 2px;'></div>", unsafe_allow_html=True)
+    
+        # Description
+        st.markdown(
     "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
     "This pie chart displays the proportion of penguins categorized as Healthy, Overweight, or Underweight."
     "</p>",
