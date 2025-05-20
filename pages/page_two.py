@@ -36,6 +36,8 @@ with st.expander("📊 Summary Statistics of Numerical Columns"):
     st.dataframe(filtered_df.describe().style.set_properties(
         **{'background-color': '#f0f4fb', 'color': '#333', 'border-color': '#ddd'}
     ), use_container_width=True)
+if filtered_df.empty:
+    st.warning("⚠️ No data available for the selected filters. Please adjust your selections.")    
 # Apply filters
 filtered_df = df.copy()
 if species_filter != "All":
