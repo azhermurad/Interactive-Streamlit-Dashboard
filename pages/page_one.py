@@ -117,41 +117,58 @@ else:
         
     with col2:
         st.markdown("### Health Metrics Overview", unsafe_allow_html=True)
-    # Description
+    
+        # Description
         st.markdown(
-        "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
-        "This pie chart displays the proportion of penguins categorized as Healthy, Overweight, or Underweight."
-        "</p>",
-        unsafe_allow_html=True
-    )
-        # Directly add the pie chart 
-        fig, ax = plt.subplots(figsize=(5, 5), facecolor='none')
-        a = filtered_df['health_metrics'].value_counts().reset_index()
-        a.columns = ['health_metrics', 'count']
-        explode = [0.1 if i == 1 else 0 for i in range(len(a))]  # dynamically match length
-        wedges, texts, autotexts = ax.pie(
-            a["count"],
-            explode=explode,
-            labels=a["health_metrics"],
-            autopct='%1.1f%%',
-            shadow=True,
-            startangle=90,
-            radius=0.5,
-            textprops={'color': 'white'}
-        )
-    #adding legend
-        ax.legend(
-            wedges,
-            a["health_metrics"],
-            title="Health Metrics",
-            loc="center left",
-            bbox_to_anchor=(1, 0.5),
-            labelcolor='black',
-            prop={'size': 10}
+            "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+            "This pie chart displays the proportion of penguins categorized as Healthy, Overweight, or Underweight."
+            "</p>",
+            unsafe_allow_html=True
         )
     
+        # Get counts from filtered data
+        a = filtered_df['health_metrics'].value_counts().reset_index()
+        a.columns = ['health_metrics', 'count']
+    
+        if not a.empty:
+            # adding the pie chart 
+            fig, ax = plt.subplots(figsize=(5, 5), facecolor='none')
+            explode = [0.1 if i == 1 else 0 for i in range(len(a))]  # dynamically match length
+    
+            wedges, texts, autotexts = ax.pie(
+                a["count"],
+                explode=explode,
+                labels=a["health_metrics"],
+                autopct='%1.1f%%',
+                shadow=True,
+                startangle=90,
+                radius=0.5,
+                textprops={'color': 'white'}
+            )
+    
+            # adding legend
+            ax.legend(
+                wedges,
+                a["health_metrics"],
+                title="Health Metrics",
+                loc="center left",
+                bbox_to_anchor=(1, 0.5),
+                labelcolor='black',
+                prop={'size': 10}
+            )
+    
+            # display pie chart
+            st.pyplot(fig, clear_figure=True)
+    
+            # small space
+            st.markdown("<div style='height: 2px;'></div>", unsafe_allow_html=True)
+    
+        else:
+            st.info("No health metrics to display for the selected filters.")
+    
         
-        st.pyplot(fig, clear_figure=True)
+            
+            st.pyplot(fig, clear_figure=True)
     
         
         
