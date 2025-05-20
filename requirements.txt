@@ -4,3 +4,4 @@ pandas
 matplotlib
 plotly
 pydeck
+seaborn
