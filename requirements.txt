@@ -1,7 +1,13 @@
 streamlit
+
 altair 
+
 pandas
+
 matplotlib
+
 plotly
+
 pydeck
+
 seaborn
