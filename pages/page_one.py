@@ -84,6 +84,8 @@ if sex_filter != "All":
     
 
 
+st.subheader("🐧 Dataset Preview (Filtered)")
+st.dataframe(filtered_df.head())
 
 
 st.write("")
@@ -100,7 +102,7 @@ with col1:
     chart = alt.Chart(sex_counts).mark_bar().encode(
         x=alt.X('sex:N', title=None),
         y=alt.Y('count:Q', title=None),
-        color=alt.Color('sex:N', legend=None)
+        color='sex:N'
     ).properties(
         height=500,
         title=alt.TitleParams(
