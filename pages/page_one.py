@@ -4,8 +4,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import altair as alt
 
-
-
 st.markdown("""
     <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold; font-weight: bold;'>
         Palmer Penguins Dataset
@@ -28,9 +26,6 @@ st.write("") # spacing
 # read csv
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
-
-
-
 
 
 # Dataset info in an expandable section
@@ -62,6 +57,32 @@ with st.expander("📘 About the Dataset"):
         """,
         unsafe_allow_html=True
     )
+# Filters
+f1, f2, f3, f4 = st.columns(4)
+
+with f1:
+    species_filter = st.selectbox("🐧 Species", options=["All"] + sorted(df["species"].unique()))
+
+with f2:
+    island_filter = st.selectbox("🏝️ Island", options=["All"] + sorted(df["island"].unique()))
+
+with f3:
+    year_filter = st.selectbox("📅 Year", options=["All"] + sorted(df["year"].unique()))
+with f4:
+    sex_filter = st.selectbox("🚻 Gender", options=["All"] + sorted(df["sex"].dropna().unique()))
+    
+# Apply filters
+filtered_df = df.copy()
+if species_filter != "All":
+    filtered_df = filtered_df[filtered_df["species"] == species_filter]
+if island_filter != "All":
+    filtered_df = filtered_df[filtered_df["island"] == island_filter]
+if year_filter != "All":
+    filtered_df = filtered_df[filtered_df["year"] == year_filter]
+if sex_filter != "All":
+    filtered_df = filtered_df[filtered_df["sex"] == sex_filter]
+    
+
 
 # statistical summary
 with st.expander("📊 Statistical Summary of Numerical Columns"):
