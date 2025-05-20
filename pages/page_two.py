@@ -99,19 +99,3 @@ else:
             "</p>",
             unsafe_allow_html=True
         )
-
-    st.subheader("Penguins Body Mass by Species")
-    fig_box = px.box(
-        df,
-        x='species',
-        y='body_mass_g',
-        color='species',
-        template="plotly_white"
-    )
-    st.plotly_chart(fig_box, use_container_width=True)
-    st.markdown(
-        "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
-        "This is a comparison of body mass distribution across different penguin species using box plots."
-        "</p>",
-        unsafe_allow_html=True
-    )
