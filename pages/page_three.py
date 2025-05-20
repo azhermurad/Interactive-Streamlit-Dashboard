@@ -37,10 +37,25 @@ else:
 # Add Column 
 col1, col2, = st.columns(2)
 with col1:
-   
-
-
-
+    st.subheader("Diet Distribution by Species ")
+    diet_species = df.groupby(['species', 'diet']).size().reset_index(name='count')
+    fig_stacked = px.bar(
+        diet_species,
+        x='species',
+        y='count',
+        color='diet',
+        title="Diet Types per Species",
+        barmode='stack',
+        template="plotly_white"
+    )
+    st.plotly_chart(fig_stacked, use_container_width=True) 
+    
+    st.markdown(
+        "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+        "This bar graph illustrates how diet types are distributed among different penguin species."
+        "</p>",
+        unsafe_allow_html=True
+    )
 
     
 with col2:
@@ -48,6 +63,14 @@ with col2:
 
     st.subheader("Avg Measurements by Life Stage")
     st.area_chart(life_stage_avg)
+    
+    st.markdown(
+    "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+    "This area chart shows average values for key measurements across penguin life stages."
+    "</p>",
+    unsafe_allow_html=True
+)
+
 
 
  
