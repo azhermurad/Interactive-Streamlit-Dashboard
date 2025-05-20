@@ -5,7 +5,7 @@ import pydeck as pdk
 import altair as alt
 
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
-df.dropna(inplace=True) # drop null values
+df.dropna(inplace=True) 
 st.title("Map-Based Visualization")
 
 # filters
@@ -62,7 +62,7 @@ island_layer = pdk.Layer(
     data=summary,
     get_position='[lon, lat]',
     get_fill_color='color',
-    get_radius='total * 2000',
+    get_radius='total * 1000',
     opacity=0.3,
     pickable=True
 )
