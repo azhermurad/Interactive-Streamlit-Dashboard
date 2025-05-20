@@ -15,6 +15,34 @@ st.markdown("""
 
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
+
+# Filters
+f1, f2, f3, f4 = st.columns(4)
+
+with f1:
+    species_filter = st.selectbox("🐧 Species", options=["All"] + sorted(df["species"].unique()))
+
+with f2:
+    island_filter = st.selectbox("🏝️ Island", options=["All"] + sorted(df["island"].unique()))
+
+with f3:
+    year_filter = st.selectbox("📅 Year", options=["All"] + sorted(df["year"].unique()))
+
+with f4:
+    sex_filter = st.selectbox("🚻 Gender", options=["All"] + sorted(df["sex"].dropna().unique()))
+
+# Apply filters
+filtered_df = df.copy()
+if species_filter != "All":
+    filtered_df = filtered_df[filtered_df["species"] == species_filter]
+if island_filter != "All":
+    filtered_df = filtered_df[filtered_df["island"] == island_filter]
+if year_filter != "All":
+    filtered_df = filtered_df[filtered_df["year"] == year_filter]
+if sex_filter != "All":
+    filtered_df = filtered_df[filtered_df["sex"] == sex_filter]
+
+
 st.write(df.head())
 print(df.corr(numeric_only=True))
 
