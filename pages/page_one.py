@@ -121,8 +121,9 @@ with col1:
 
     # Display in Streamlit
     st.altair_chart(chart, use_container_width=True,)
-    
-    
+    st.markdown("<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+                "This bar chart shows the count of male and female penguins in the filtered dataset.</p>", unsafe_allow_html=True)
+   
     
     
 with col2:
@@ -139,7 +140,12 @@ with col2:
     # Add legend
     # ax.legend(wedges, a["health_metrics"], title="Health Metrics", loc="center left", bbox_to_anchor=(1, 0.5),)
     st.pyplot(fig)
-
+    st.markdown(
+    "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+    "This pie chart displays the proportion of penguins categorized as Healthy, Overweight, or Underweight."
+    "</p>",
+    unsafe_allow_html=True
+)
     
     
     
