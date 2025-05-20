@@ -60,44 +60,53 @@ with col2:
 
 
 
-# 3 & 4. Body mass and diet trends over time
-st.subheader("Trends Over the Years")
+# Section 2: Health Metric Trends
+st.subheader("Health Metric Trends (Filtered by Year and Species)")
 
-filter_col, _ = st.columns([1, 5])  # 1:5 ratio to make the filter column smaller
-with filter_col:
-    selected_species_for_trend = st.selectbox(
-        "Select Species to View Trends", 
-        sorted(df["species"].unique())
-    )
+# Filters
+selected_year = st.slider("Select Year", min_value=int(df["year"].min()), max_value=int(df["year"].max()), step=1)
+selected_species = st.text_input("Enter Species (e.g., Adelie, Chinstrap, Gentoo)", "Adelie").strip().lower()
+
+# Filter data
+filtered_df = df[df["year"] == selected_year]
+filtered_df = filtered_df[filtered_df["species"].str.lower() == selected_species]
 
 col3, col4 = st.columns(2)
 
+# Plot 3: Health metrics distribution in selected year for selected species
 with col3:
-    trend_df = df[df["species"] == selected_species_for_trend]
-    avg_mass_per_year = trend_df.groupby(["year", "sex"])["body_mass_g"].mean().reset_index()
+    if not filtered_df.empty:
+        health_counts = filtered_df["health_metrics"].value_counts().reset_index()
+        health_counts.columns = ["health_metrics", "count"]
 
-    fig3 = px.line(
-        avg_mass_per_year,
-        x="year",
-        y="body_mass_g",
-        color="sex",
-        markers=True,
-        title=f"Average Body Mass Over Years - {selected_species_for_trend}",
-        template="plotly_white"
-    )
-    st.plotly_chart(fig3, use_container_width=True)
+        fig3 = px.pie(
+            health_counts,
+            names="health_metrics",
+            values="count",
+            hole=0.5,  # Donut chart
+            title=f"Health Metrics for {selected_species.capitalize()} in {selected_year}",
+            template="plotly_white"
+        )
+        st.plotly_chart(fig3, use_container_width=True)
+        st.caption("Donut chart showing distribution of health metrics for the selected species in the chosen year.")
+    else:
+        st.warning("No data available for the selected species and year.")
 
+# Plot 4: Health by gender for selected species and year
 with col4:
-    diet_df = df[df["species"] == selected_species_for_trend]
-    diet_per_year = diet_df.groupby(["year", "diet"]).size().reset_index(name="count")
+    if not filtered_df.empty:
+        gender_health = filtered_df.groupby(["sex", "health_metrics"]).size().reset_index(name="count")
 
-    fig4 = px.bar(
-        diet_per_year,
-        x="year",
-        y="count",
-        color="diet",
-        title=f"Diet Distribution Over Years - {selected_species_for_trend}",
-        barmode="stack",
-        template="plotly_white"
-    )
-    st.plotly_chart(fig4, use_container_width=True)
+        fig4 = px.bar(
+            gender_health,
+            x="sex",
+            y="count",
+            color="health_metrics",
+            barmode="group",
+            title=f"Health Comparison by Gender - {selected_species.capitalize()} ({selected_year})",
+            template="plotly_white"
+        )
+        st.plotly_chart(fig4, use_container_width=True)
+        st.caption("Grouped bar chart comparing health status of male and female penguins.")
+    else:
+        st.warning("No gender-specific data available for the selected filters.")
