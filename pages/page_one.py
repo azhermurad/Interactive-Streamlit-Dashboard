@@ -96,14 +96,14 @@ col1, col2, = st.columns(2)
 
 with col1:
     st.markdown("###  Gender Distribution")
-    st.write('')
+    #st.write('')
     sex_counts = df['sex'].value_counts().reset_index()
     sex_counts.columns = ['sex', 'count']
     # Create Altair bar chart
     chart = alt.Chart(sex_counts).mark_bar().encode(
         x=alt.X('sex:N', title=None),
         y=alt.Y('count:Q', title=None),
-        color='sex:N'
+        color=alt.Color('sex:N', legend=None)
     ).properties(
         height=500,
         title=alt.TitleParams(
