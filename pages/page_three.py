@@ -52,10 +52,9 @@ with col1:
 
     
 with col2:
-    pass
-    # life_stage_avg = df.groupby('life_stage')[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm']].mean()
-    # st.subheader("Avg Measurements by Life Stage")
-    # st.area_chart(life_stage_avg)
+    life_stage_avg = df.groupby('life_stage')[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm']].mean()
+    st.subheader("Avg Measurements by Life Stage")
+    st.area_chart(life_stage_avg)
 
 
  

@@ -41,9 +41,7 @@ if sex_filter != "All":
 
 # Summary statistics
 with st.expander("📊 Summary Statistics of Numerical Columns"):
-    st.dataframe(filtered_df.describe().style.set_properties(
-        **{'background-color': '#f0f4fb', 'color': '#333', 'border-color': '#ddd'}
-    ), use_container_width=True)
+    st.dataframe(filtered_df.describe(),use_container_width=True)
 
 if filtered_df.empty:
     st.warning("⚠️ No data available for the selected filters. Please adjust your selections.")
