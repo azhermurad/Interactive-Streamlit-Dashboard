@@ -94,7 +94,7 @@ else:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("### 📊 Gender Distribution")
+        st.markdown("### Gender Distribution")
         sex_counts = filtered_df['sex'].value_counts().reset_index()
         sex_counts.columns = ['sex', 'count']
         # Create Altair bar chart
@@ -114,7 +114,7 @@ else:
 
     with col2:
         # Use tighter HTML heading to reduce space above
-        st.markdown("### 🧬 Health Metrics Overview", unsafe_allow_html=True)
+        st.markdown("### Health Metrics Overview", unsafe_allow_html=True)
     
         # Directly add the pie chart (don't add blank space above)
         fig, ax = plt.subplots(figsize=(5, 5), facecolor='none')
