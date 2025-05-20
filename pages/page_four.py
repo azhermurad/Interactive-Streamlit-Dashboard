@@ -103,3 +103,21 @@ with col2:
         ).properties(height=350).interactive()
 
         st.altair_chart(bar, use_container_width=True)
+
+st.markdown("Health Status by Island")
+
+# group by island and health_status
+health_summary = filtered_df.groupby(['island', 'health_metrics']).size().reset_index(name='count')
+
+# plot bar chart
+health_chart = alt.Chart(health_summary).mark_bar().encode(
+    x=alt.X('count:Q', title='Number of Penguins'),
+    y=alt.Y('island:N', title='Island'),
+    color=alt.Color('health_metrics:N', scale=alt.Scale(
+        domain=['underweight', 'healthy', 'overweight'],
+        range=['#e41a1c', '#4daf4a', '#377eb8']
+    )),
+    tooltip=['island', 'health_metrics', 'count']
+).properties(height=350).interactive()
+
+st.altair_chart(health_chart, use_container_width=True)
