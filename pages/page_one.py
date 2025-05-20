@@ -84,7 +84,7 @@ if sex_filter != "All":
     
 
 
-st.subheader("🐧 Dataset Preview (Filtered)")
+st.subheader("🐧 Dataset Preview ")
 st.dataframe(filtered_df.head())
 
 if filtered_df.empty:
@@ -95,6 +95,10 @@ else:
 
     with col1:
         st.markdown("### Gender Distribution")
+        # Description
+        st.markdown("<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+                    "This bar chart shows the number of male and female penguins in the filtered dataset.</p>", unsafe_allow_html=True)
+
         sex_counts = filtered_df['sex'].value_counts().reset_index()
         sex_counts.columns = ['sex', 'count']
         # Create Altair bar chart
@@ -109,13 +113,16 @@ else:
         )
         # Display in Streamlit
         st.altair_chart(chart, use_container_width=True)
-        st.markdown("<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
-                    "This bar chart shows the count of male and female penguins in the filtered dataset.</p>", unsafe_allow_html=True)
-
+        
     with col2:
-        # Use tighter HTML heading to reduce space above
         st.markdown("### Health Metrics Overview", unsafe_allow_html=True)
-    
+    # Description
+        st.markdown(
+        "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
+        "This pie chart displays the proportion of penguins categorized as Healthy, Overweight, or Underweight."
+        "</p>",
+        unsafe_allow_html=True
+    )
         # Directly add the pie chart (don't add blank space above)
         fig, ax = plt.subplots(figsize=(5, 5), facecolor='none')
         a = df['health_metrics'].value_counts().reset_index()
@@ -149,13 +156,7 @@ else:
         # Small spacer between chart and description
         st.markdown("<div style='height: 2px;'></div>", unsafe_allow_html=True)
     
-        # Description
-        st.markdown(
-    "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
-    "This pie chart displays the proportion of penguins categorized as Healthy, Overweight, or Underweight."
-    "</p>",
-    unsafe_allow_html=True
-)
-    
+        
+        
     
     
