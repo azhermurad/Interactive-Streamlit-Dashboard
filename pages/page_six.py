@@ -6,19 +6,19 @@ import plotly.express as px
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True)
 
-st.title(" Island-based Analysis of Penguins")
+st.title(" Island-based Body Mass Analysis of Penguins")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    # Filters side by side on one row inside col1
+    #applying filters 
     filter1, filter2 = st.columns([1,1])
     with filter1:
         selected_island = st.radio("Select Island", sorted(df["island"].unique()), key="island_radio")
     with filter2:
         selected_species = st.radio("Select Species", sorted(df["species"].unique()), key="species_radio")
 
-    # Show plot 1 below filters
+    #display plot 
     filtered_df1 = df[(df["island"] == selected_island) & (df["species"] == selected_species)]
 
     if filtered_df1.empty:
@@ -36,7 +36,7 @@ with col1:
         st.plotly_chart(fig1, use_container_width=True)
 
 with col2:
-    # Plot 2 filter and plot stacked vertically
+    #Compare Body Mass Across Islands 
     selected_islands = st.multiselect(
         "Compare Body Mass Across Islands (All Species)",
         options=sorted(df["island"].unique()),
