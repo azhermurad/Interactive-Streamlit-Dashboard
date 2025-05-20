@@ -70,6 +70,38 @@ with col2:
     "</p>",
     unsafe_allow_html=True
 )
+st.subheader("Diet Comparison")
+
+# Aggregate average measurements grouped by diet (and species)
+diet_avg = df.groupby(['diet', 'species']).agg({
+    'bill_length_mm': 'mean',
+    'bill_depth_mm': 'mean',
+    'flipper_length_mm': 'mean',
+    'body_mass_g': 'mean'
+}).reset_index()
+
+# Scatter plot using Plotly Express
+fig_scatter = px.scatter(
+    diet_avg,
+    x='bill_length_mm',
+    y='bill_depth_mm',
+    color='diet',
+    symbol='species',
+    size='body_mass_g',  # optional: size proportional to body mass
+    hover_data=['species', 'flipper_length_mm', 'body_mass_g'],
+    title='Diet Comparison: Bill Length vs Bill Depth by Species',
+    template='plotly_white'
+)
+
+st.plotly_chart(fig_scatter, use_container_width=True)
+
+st.markdown(
+    "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray;'>"
+    "Scatter plot showing comparison of bill length and bill depth for different diets and species. "
+    "Size of points indicates average body mass."
+    "</p>",
+    unsafe_allow_html=True
+)
 
 
 
