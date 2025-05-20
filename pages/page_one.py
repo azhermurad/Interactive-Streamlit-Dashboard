@@ -138,8 +138,18 @@ with col2:
     wedges, texts, autotexts=ax.pie(a["count"], explode=explode, labels=a["health_metrics"], autopct='%1.1f%%',
         shadow=True, startangle=90,radius=0.5, textprops={'color': 'white'} )
     # Add legend
-    # ax.legend(wedges, a["health_metrics"], title="Health Metrics", loc="center left", bbox_to_anchor=(1, 0.5),)
+    ax.legend(
+        wedges,
+        a["health_metrics"],
+        title="Health Metrics",
+        loc="center left",
+        bbox_to_anchor=(1, 0.5),
+        labelcolor='black',
+        prop={'size': 10}
+    )
+    
     st.pyplot(fig)
+   #description
     st.markdown(
     "<p style='font-family: Arial, sans-serif; font-size: 14px; color: gray; margin-top: 10px;'>"
     "This pie chart displays the proportion of penguins categorized as Healthy, Overweight, or Underweight."
