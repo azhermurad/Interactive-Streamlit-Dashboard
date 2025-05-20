@@ -11,8 +11,6 @@ The **Palmer's Penguins** dataset offers a rich and comprehensive view of pengui
   - ❤️ **Health Metrics**
 - Builds upon the **original attributes** for deeper insights.
 - Covers a **five-year span** from **2021 to 2025**, ensuring a robust temporal understanding of penguin populations.
-
-This enhanced dataset is ideal for ecological research, machine learning, and data visualization projects focused on wildlife and environmental patterns.
 ---
 
 ### 📋 Columns Description
