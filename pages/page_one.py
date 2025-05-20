@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import altair as alt
 
+#adding title
 st.markdown("""
     <h1 style='text-align: center; color: white; font-family: Arial; font-weight: bold; font-weight: bold;'>
         Palmer Penguins Dataset
@@ -23,12 +24,12 @@ st.markdown(
 
 st.write("") # spacing 
 
-# read csv
+#read dataset
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True) # drop null value 
 
 
-# Dataset info in an expandable section
+#dataset info in an expandable section
 with st.expander("📘 About the Dataset"):
     st.markdown(
         """
@@ -57,7 +58,7 @@ with st.expander("📘 About the Dataset"):
         """,
         unsafe_allow_html=True
     )
-# Filters
+#initilizaing filters
 f1, f2, f3, f4 = st.columns(4)
 
 with f1:
@@ -71,7 +72,7 @@ with f3:
 with f4:
     sex_filter = st.selectbox("🚻 Gender", options=["All"] + sorted(df["sex"].dropna().unique()))
     
-# Apply filters
+#applying filters
 filtered_df = df.copy()
 if species_filter != "All":
     filtered_df = filtered_df[filtered_df["species"] == species_filter]
@@ -83,7 +84,7 @@ if sex_filter != "All":
     filtered_df = filtered_df[filtered_df["sex"] == sex_filter]
     
 
-
+#adding preview of dataset
 st.subheader("🐧 Dataset Preview ")
 st.dataframe(filtered_df.head())
 
@@ -123,12 +124,11 @@ else:
         "</p>",
         unsafe_allow_html=True
     )
-        # Directly add the pie chart (don't add blank space above)
+        # Directly add the pie chart 
         fig, ax = plt.subplots(figsize=(5, 5), facecolor='none')
-        a = df['health_metrics'].value_counts().reset_index()
+        a = filtered_df['health_metrics'].value_counts().reset_index()
         a.columns = ['health_metrics', 'count']
-        explode = (0, 0.1, 0)
-    
+        explode = [0.1 if i == 1 else 0 for i in range(len(a))]  # dynamically match length
         wedges, texts, autotexts = ax.pie(
             a["count"],
             explode=explode,
@@ -139,7 +139,7 @@ else:
             radius=0.5,
             textprops={'color': 'white'}
         )
-    
+    #adding legend
         ax.legend(
             wedges,
             a["health_metrics"],
@@ -150,11 +150,8 @@ else:
             prop={'size': 10}
         )
     
-        # Use tighter layout for pie chart
+        
         st.pyplot(fig, clear_figure=True)
-    
-        # Small spacer between chart and description
-        st.markdown("<div style='height: 2px;'></div>", unsafe_allow_html=True)
     
         
         
