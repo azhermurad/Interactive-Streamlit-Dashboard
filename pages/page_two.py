@@ -31,6 +31,11 @@ with f3:
 with f4:
     sex_filter = st.selectbox("🚻 Gender", options=["All"] + sorted(df["sex"].dropna().unique()))
 
+# Summary statistics
+with st.expander("📊 Summary Statistics of Numerical Columns"):
+    st.dataframe(filtered_df.describe().style.set_properties(
+        **{'background-color': '#f0f4fb', 'color': '#333', 'border-color': '#ddd'}
+    ), use_container_width=True)
 # Apply filters
 filtered_df = df.copy()
 if species_filter != "All":
