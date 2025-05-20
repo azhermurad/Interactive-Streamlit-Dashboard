@@ -9,17 +9,17 @@ import plotly.express as px
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True)  # Remove missing values
 
-# Sidebar Filters
-sex = st.sidebar.selectbox("Select Sex", options=['all'] + sorted(df['sex'].dropna().unique()), index=0)
-island = st.sidebar.selectbox("Select Island", options=['all'] + sorted(df['island'].dropna().unique()), index=0)
+# Sidebar manual inputs
+sex = st.sidebar.text_input("Enter Sex (e.g., male, female or 'all')", "female").strip().lower()
+island = st.sidebar.text_input("Enter Island (e.g., Biscoe, Dream, Torgersen or 'all')", "Biscoe").strip().lower()
 species_input = st.sidebar.text_input("Enter Species (e.g., Adelie, Chinstrap, Gentoo)", "Chinstrap").strip().lower()
 
-# Apply global filters for sex and island
+# Apply global filters
 filtered_df_global = df.copy()
-if sex != 'all':
-    filtered_df_global = filtered_df_global[filtered_df_global['sex'].str.lower() == sex.lower()]
-if island != 'all':
-    filtered_df_global = filtered_df_global[filtered_df_global['island'].str.lower() == island.lower()]
+if sex and sex != 'all':
+    filtered_df_global = filtered_df_global[filtered_df_global['sex'].str.lower() == sex]
+if island and island != 'all':
+    filtered_df_global = filtered_df_global[filtered_df_global['island'].str.lower() == island]
 
 # === Line Chart ===
 st.subheader("Line Chart of Bill Length & Bill Depth")
@@ -75,7 +75,7 @@ with col2:
     )
 
 # === Scatter Plot Based on Diet and Species ===
-st.subheader("Diet Comparison ")
+st.subheader("Diet Comparison")
 
 diet_avg = filtered_df_global.groupby(['diet', 'species']).agg({
     'bill_length_mm': 'mean',
