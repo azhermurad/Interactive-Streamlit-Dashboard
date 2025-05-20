@@ -84,9 +84,6 @@ if sex_filter != "All":
     
 
 
-# statistical summary
-with st.expander("📊 Statistical Summary of Numerical Columns"):
-    st.dataframe(df.describe().style.format(precision=2))
 
 
 st.write("")
