@@ -11,7 +11,7 @@ df.dropna(inplace=True)  # Remove missing values
 
 # Sidebar manual inputs
 sex = st.sidebar.text_input("Enter Sex (e.g., male, female or 'all')", "female").strip().lower()
-island = st.sidebar.text_input("Enter Island (e.g., Biscoe, Dream, Torgersen or 'all')", "Biscoe").strip().lower()
+island = st.sidebar.text_input("Enter Island (e.g., Biscoe, Dream, Torgersen or 'all')", "Dream").strip().lower()
 species_input = st.sidebar.text_input("Enter Species (e.g., Adelie, Chinstrap, Gentoo)", "Chinstrap").strip().lower()
 
 # Apply global filters
