@@ -5,7 +5,7 @@ import pydeck as pdk
 import altair as alt
 
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
-df.dropna(inplace=True) # drop null values
+df.dropna(inplace=True) 
 st.title("Map-Based Visualization")
 
 # filters
@@ -62,7 +62,7 @@ island_layer = pdk.Layer(
     data=summary,
     get_position='[lon, lat]',
     get_fill_color='color',
-    get_radius='total * 2000',
+    get_radius='total * 1000',
     opacity=0.3,
     pickable=True
 )
@@ -78,7 +78,7 @@ tooltip = {
     "style": {"backgroundColor": "black", "color": "white", "fontSize": "13px"}
 }
 
-view_state = pdk.ViewState(latitude=-65.0, longitude=-64.8, zoom=5)
+view_state = pdk.ViewState(latitude=-65.0, longitude=-64.8, zoom=3)
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
@@ -103,3 +103,21 @@ with col2:
         ).properties(height=350).interactive()
 
         st.altair_chart(bar, use_container_width=True)
+
+st.markdown("Health Status by Island")
+
+# group by island and health_status
+health_summary = filtered_df.groupby(['island', 'health_metrics']).size().reset_index(name='count')
+
+# plot bar chart
+health_chart = alt.Chart(health_summary).mark_bar().encode(
+    x=alt.X('count:Q', title='Number of Penguins'),
+    y=alt.Y('island:N', title='Island'),
+    color=alt.Color('health_metrics:N', scale=alt.Scale(
+        domain=['underweight', 'healthy', 'overweight'],
+        range=['#e41a1c', '#4daf4a', '#377eb8']
+    )),
+    tooltip=['island', 'health_metrics', 'count']
+).properties(height=350).interactive()
+
+st.altair_chart(health_chart, use_container_width=True)

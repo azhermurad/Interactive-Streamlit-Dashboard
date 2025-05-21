@@ -10,11 +10,11 @@ st.set_page_config(page_title="Streamlit Dashboard (EDA) Project", layout="wide"
 
 pages = [
         st.Page("pages/page_one.py", title="Home",icon=":material/home:"),
-        st.Page("pages/page_two.py", title="Page_2",icon=":material/responsive_layout:"),
-        st.Page("pages/page_three.py", title="Page_3",icon=":material/monitoring:"),
-        st.Page("pages/page_four.py", title="Page_4",icon=":material/map:"),
-        st.Page("pages/page_five.py", title="Page_5",icon=":material/map:"),
-        st.Page("pages/page_six.py", title="Page_6",icon=":material/map:")]
+        st.Page("pages/page_two.py", title="Correlation between Features",icon=":material/responsive_layout:"),
+        st.Page("pages/page_three.py", title="Analysis based on Bill Length & Bill Depth",icon=":material/monitoring:"),
+        st.Page("pages/page_four.py", title="Map-Based Visualization",icon=":material/map:"),
+        st.Page("pages/page_five.py", title="Life Stage & Health Trends",icon=":material/monitoring:"),
+        st.Page("pages/page_six.py", title="Island-based Body Mass Analysis",icon=":material/monitoring:")]
 
 
 pg = st.navigation(pages)

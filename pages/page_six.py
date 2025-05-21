@@ -6,111 +6,98 @@ import plotly.express as px
 df = pd.read_csv("dataset/palmerpenguins_extended.csv")
 df.dropna(inplace=True)
 
-st.title("Life Stage & Health Trends of Penguins")
+st.title(" Island-based Body Mass Analysis of Penguins")
 
-# Section 1: Life Stage Analysis
-
-st.subheader("Penguins Life Stage Distribution")
-
-# Filter selection
-col_filter1, col_filter2 = st.columns([1, 1])
-with col_filter1:
-    selected_species_ls = st.selectbox("Select Species", sorted(df["species"].unique()))
-with col_filter2:
-    selected_island_ls = st.selectbox("Select Island", sorted(df["island"].unique()))
-
-# Filtered dataframe for Plot 1
-filtered_ls_df = df[(df["species"] == selected_species_ls) & (df["island"] == selected_island_ls)]
-
-# Create two plots side by side
 col1, col2 = st.columns(2)
 
 with col1:
-    if not filtered_ls_df.empty:
-        stage_counts = filtered_ls_df["life_stage"].value_counts().reset_index()
-        stage_counts.columns = ["life_stage", "count"]  # Rename for clarity
+    #applying filters 
+    filter1, filter2 = st.columns([1,1])
+    with filter1:
+        selected_island = st.radio("Select Island", sorted(df["island"].unique()), key="island_radio")
+    with filter2:
+        selected_species = st.radio("Select Species", sorted(df["species"].unique()), key="species_radio")
 
-        fig1 = px.pie(
-            stage_counts,
-            names="life_stage",
-            values="count",
-            title=f"Life Stage Distribution of {selected_species_ls} on {selected_island_ls}",
+    #display plot 
+    filtered_df1 = df[(df["island"] == selected_island) & (df["species"] == selected_species)]
+
+    if filtered_df1.empty:
+        st.warning(f"No data for species '{selected_species}' on island '{selected_island}'.")
+    else:
+        fig1 = px.box(
+            filtered_df1,
+            x="sex",
+            y="body_mass_g",
+            color="sex",
+            title=f"Body Mass by Gender - {selected_species} on {selected_island}",
             template="plotly_white",
-            color_discrete_sequence=px.colors.qualitative.Set3,
-            hole=0.4  # Makes it a donut chart
+            color_discrete_sequence=["#1f77b4", "#ff7f0e"]
         )
         st.plotly_chart(fig1, use_container_width=True)
-        st.caption("This donut chart shows the proportion of life stages for the selected species on the chosen island.")
-    else:
-        st.warning(f"No data for {selected_species_ls} on {selected_island_ls}.")
-
-
 
 with col2:
-    island_df = df[df["island"] == selected_island_ls]
-    if not island_df.empty:
-        stage_species_counts = island_df.groupby(["life_stage", "species"]).size().reset_index(name="count")
+    #Compare Body Mass Across Islands 
+    selected_islands = st.multiselect(
+        "Compare Body Mass Across Islands (All Species)",
+        options=sorted(df["island"].unique()),
+        default=sorted(df["island"].unique())[:2]
+    )
+    filtered_df2 = df[df["island"].isin(selected_islands)]
 
-        fig2 = px.area(
-            stage_species_counts,
-            x="life_stage",
-            y="count",
-            color="species",
-            line_group="species",
-            title=f"Life Stages of All Species on {selected_island_ls}",
-            template="plotly_white"
+    if filtered_df2.empty:
+        st.warning("No data available for selected islands.")
+    else:
+        fig2 = px.box(
+            filtered_df2,
+            x="island",
+            y="body_mass_g",
+            color="island",
+            title="Body Mass Comparison Across Islands",
+            template="plotly_white",
+            color_discrete_sequence=px.colors.qualitative.Set2
         )
         st.plotly_chart(fig2, use_container_width=True)
-        st.caption("This area chart compares life stage distributions across species on the selected island.")
-    else:
-        st.warning(f"No data for island {selected_island_ls}.")
 
 
-# Section 2: Health Metric Trends
-st.subheader("Health Metric Trends Over Years")
 
-# Species selection for health analysis
-selected_species_health = st.selectbox("Select Species for Health Trend", sorted(df["species"].unique()))
+# 3 & 4. Body mass and diet trends over time
+st.subheader("Trends Over the Years")
 
-# Filter dataframe
-health_df = df[df["species"] == selected_species_health]
+filter_col, _ = st.columns([1, 5])  # 1:5 ratio to make the filter column smaller
+with filter_col:
+    selected_species_for_trend = st.selectbox(
+        "Select Species to View Trends", 
+        sorted(df["species"].unique())
+    )
 
 col3, col4 = st.columns(2)
 
-# Plot 3: Health trend over years
 with col3:
-    if not health_df.empty:
-        health_by_year = health_df.groupby(["year", "health_metrics"]).size().reset_index(name="count")
-        fig3 = px.bar(
-            health_by_year,
-            x="year",
-            y="count",
-            color="health_metrics",
-            barmode="group",
-            title=f"Health Metrics of {selected_species_health} Over the Years",
-            template="plotly_white"
-        )
-        st.plotly_chart(fig3, use_container_width=True)
-        st.caption("Shows how health metrics of the selected species change over the years.")
-    else:
-        st.warning(f"No health data available for {selected_species_health}.")
+    trend_df = df[df["species"] == selected_species_for_trend]
+    avg_mass_per_year = trend_df.groupby(["year", "sex"])["body_mass_g"].mean().reset_index()
 
-# Plot 4: Health by gender over years
+    fig3 = px.line(
+        avg_mass_per_year,
+        x="year",
+        y="body_mass_g",
+        color="sex",
+        markers=True,
+        title=f"Average Body Mass Over Years - {selected_species_for_trend}",
+        template="plotly_white"
+    )
+    st.plotly_chart(fig3, use_container_width=True)
+
 with col4:
-    gender_health_df = health_df.copy()
-    if not gender_health_df.empty:
-        health_gender_year = gender_health_df.groupby(["year", "sex", "health_metrics"]).size().reset_index(name="count")
-        fig4 = px.bar(
-            health_gender_year,
-            x="year",
-            y="count",
-            color="health_metrics",
-            facet_col="sex",
-            barmode="group",
-            title=f"Health of Male vs Female {selected_species_health} Over Years",
-            template="plotly_white"
-        )
-        st.plotly_chart(fig4, use_container_width=True)
-        st.caption("Compares the health status of male and female penguins for the selected species over time.")
-    else:
-        st.warning("Not enough gender-specific health data for this species.")
+    diet_df = df[df["species"] == selected_species_for_trend]
+    diet_per_year = diet_df.groupby(["year", "diet"]).size().reset_index(name="count")
+
+    fig4 = px.bar(
+        diet_per_year,
+        x="year",
+        y="count",
+        color="diet",
+        title=f"Diet Distribution Over Years - {selected_species_for_trend}",
+        barmode="stack",
+        template="plotly_white"
+    )
+    st.plotly_chart(fig4, use_container_width=True)
