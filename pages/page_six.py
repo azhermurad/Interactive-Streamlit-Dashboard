@@ -9,7 +9,8 @@ df.dropna(inplace=True)
 st.title("Life Stage & Health Trends of Penguins")
 
 # Section 1: Life Stage Analysis
-st.subheader("Life Stage Distribution")
+
+st.subheader("Penguins Life Stage Distribution")
 
 # Filter selection
 col_filter1, col_filter2 = st.columns([1, 1])
