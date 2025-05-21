@@ -28,6 +28,14 @@ Follow these steps to set up and run a Streamlit application in a virtual enviro
 
 ---
 
+## 0. Clone Repo
+
+```bash
+git clone git@github.com:azhermurad/Interactive-Streamlit-Dashboard.git
+```
+
+---
+
 ## 1. Create a Virtual Environment
 
 ```bash
@@ -73,8 +81,3 @@ python -m streamlit run app.py
 ```
 
 ---
-
-## 📚 Full Documentation
-
-Find the complete Streamlit documentation here:  
-[Streamlit Installation Guide](https://docs.streamlit.io/get-started/installation/command-line)
