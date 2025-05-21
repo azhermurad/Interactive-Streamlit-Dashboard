@@ -1,7 +1,6 @@
 # 🐧 Palmer's Penguins Dataset (2021–2025) Overview
 
 The **Palmer's Penguins** dataset offers a rich and comprehensive view of penguin characteristics and their natural environment. 
----
 
 
 
@@ -15,7 +14,6 @@ The **Palmer's Penguins** dataset offers a rich and comprehensive view of pengui
 - Covers a **five-year span** from **2021 to 2025**, ensuring a robust temporal understanding of penguin populations.
 
 This enhanced dataset is ideal for ecological research, machine learning, and data visualization projects focused on wildlife and environmental patterns.
----
 
 ### 📋 Columns Description
 

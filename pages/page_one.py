@@ -33,10 +33,21 @@ df.dropna(inplace=True) # drop null value
 with st.expander("📘 About the Dataset"):
     st.markdown(
         """
-        ### 🐧 Palmer's Penguins Dataset Overview
+        ### 🐧 Palmer's Penguins Dataset (2021–2025) Overview
         
-        Palmer's Penguins dataset, providing a more comprehensive view of penguin characteristics and their environment. It includes new features such as diet, year of observation, life stage, and health metrics, in addition to the original attributes. The dataset spans from 2021 to 2025.
+        The **Palmer's Penguins** dataset offers a rich and comprehensive view of penguin characteristics and their natural environment. 
 
+        ### 🌟 Key Highlights:
+            - Includes **new features** such as:
+            - 🥗 **Diet**
+            - 📅 **Year of Observation**
+            - 🐣 **Life Stage**
+            - ❤️ **Health Metrics**
+            - Builds upon the **original attributes** for deeper insights.
+            - Covers a **five-year span** from **2021 to 2025**, ensuring a robust temporal understanding of penguin populations.
+
+        
+            This enhanced dataset is ideal for ecological research, machine learning, and data visualization projects focused on wildlife and environmental patterns.
         ---
         ### 📋 Columns Description
 
